@@ -26,3 +26,9 @@ styczność).
 * Bajbak Filip
 * Duraj Wiktoria
 * Ryszczyk Jakub
+
+
+### Style Guide
+
+Prosze sie do tego stosowac:
+https://google.github.io/styleguide/cppguide.html
