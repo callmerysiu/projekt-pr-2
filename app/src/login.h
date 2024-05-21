@@ -12,7 +12,9 @@ class User
 class ILogin
 {
 public:
-    virtual User get_user();
+    virtual User get_user()= 0;
+    virtual ~ILogin(){ }
+
 };
 
 class MockLoginService : public ILogin

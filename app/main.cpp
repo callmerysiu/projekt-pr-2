@@ -9,5 +9,5 @@ int main(){
 
     ILogin *login = new MockLoginService(database, interface);
     User user = login->get_user();
-    UserService(user, database, interface);
+    // UserService(user, database, interface);
 }
