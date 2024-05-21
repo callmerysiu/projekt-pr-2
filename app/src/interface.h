@@ -2,6 +2,6 @@ class IUserInterface
 {
 };
 
-class CLI : public IUserInterface
+class MockInterface : public IUserInterface
 {
 };

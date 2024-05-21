@@ -4,9 +4,8 @@
 using namespace std;
 
 int main(){
-
     IDataStorage *database = new MockDatabase();
-    IUserInterface *interface = new CLI();
+    IUserInterface *interface = new MockInterface();
 
     ILogin *login = new LoginService(database, interface);
     User user = login->get_user();
