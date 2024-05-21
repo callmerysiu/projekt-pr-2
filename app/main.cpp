@@ -4,7 +4,6 @@
 using namespace std;
 
 int main(){
-    std::cout << "aha";
 
     IDataStorage *database = new MockDatabase();
     IUserInterface *interface = new CLI();
