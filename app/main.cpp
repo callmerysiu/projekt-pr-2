@@ -7,7 +7,7 @@ int main(){
     IDataStorage *database = new MockDatabase();
     IUserInterface *interface = new MockInterface();
 
-    ILogin *login = new LoginService(database, interface);
+    ILogin *login = new MockLoginService(database, interface);
     User user = login->get_user();
     UserService(user, database, interface);
 }

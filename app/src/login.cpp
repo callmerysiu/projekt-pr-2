@@ -1,5 +1,10 @@
 #include "login.h"
 
-LoginService::LoginService(IDataStorage *database, IUserInterface *interface) {}
+User::User(int id, string userName): id(id), userName(userName){}
 
-// User LoginService::get_user() {};
+
+MockLoginService::MockLoginService(IDataStorage *database, IUserInterface *interface) {}
+
+User MockLoginService::get_user() {
+    return User(1,"dupa");
+};
