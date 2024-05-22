@@ -17,3 +17,7 @@ list<Transaction> MockDatabase::get_user_transactions_filterd(int user_id, time_
     list<Transaction> transaction_list = {t};
     return transaction_list;
 }
+
+User MockDatabase::get_user(string user_name, string password){
+    return User(12, "hehszki");
+};

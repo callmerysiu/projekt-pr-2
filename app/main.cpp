@@ -8,6 +8,8 @@ int main(){
     IUserInterface *interface = new MockInterface();
 
     ILogin *login = new MockLoginService(database, interface);
-    User user = login->get_user();
-    // UserService(user, database, interface);
+    User user = login->get_user("uwuXD","");
+    cout << user.id << endl;
+    cout << user.user_name << endl;
+    UserService(user, database, interface);
 }
