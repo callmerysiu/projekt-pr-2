@@ -4,8 +4,8 @@
 
 class User
 {
-    public:
-        int id;
-        std::string user_name;
-        User(int id, std::string user_name);
+public:
+    int id;
+    std::string user_name;
+    User(int id, std::string user_name);
 };
