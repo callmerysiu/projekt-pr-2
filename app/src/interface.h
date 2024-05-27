@@ -2,8 +2,10 @@
 
 #include <string>
 #include <list>
+#include <unordered_map>
 
 #include "transaction.h"
+#include "user.h"
 
 enum UserAction
 {
@@ -35,3 +37,19 @@ public:
 
     MockInterface();
 };
+
+class BudgetManager {
+public:
+    void addUser(const std::string& username, const std::string& password){
+        users.emplace(username, User(username, password));
+    }
+    User* login(const std::string& username, const std::string& password){
+        auto it = users.find(username);
+        if(it != users.end() && it->second.authenticate(password)){
+            return &it->second;
+        }
+        return nullptr;
+    }
+private:
+    std::unordered_map<std::string, User> users;
+}
