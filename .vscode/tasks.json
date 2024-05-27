@@ -12,7 +12,7 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I",
-                "${fileDirname}\\src"
+                "${fileDirname}\\include"
             ],
             "options": {
                 "cwd": "${fileDirname}"
