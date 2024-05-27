@@ -12,13 +12,15 @@ protected:
     IDataStorage *database;
 
 public:
-    virtual User *get_user() = 0;
+    virtual User *login() = 0;
+    virtual void add_user() = 0;
     virtual ~ILogin() {}
 };
 
-class MockLoginService : public ILogin
+class LoginService : public ILogin
 {
 public:
-    MockLoginService(IDataStorage *, IUserInterface *);
-    User *get_user();
+    LoginService(IDataStorage *, IUserInterface *);
+    User *login();
+    void add_user();
 };

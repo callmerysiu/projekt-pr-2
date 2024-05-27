@@ -22,3 +22,8 @@ User *MockDatabase::get_user(string user_name, string password)
 {
     return new User(12, "heheszki");
 };
+
+bool MockDatabase::add_user(string user_name, string password)
+{
+    return true;
+};

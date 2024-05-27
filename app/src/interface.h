@@ -11,7 +11,8 @@ enum UserAction
 {
     ADD_TRANSACTION,
     SEE_HISTORY,
-    EXIT
+    EXIT,
+    NOOP
 };
 
 class IUserInterface
@@ -22,6 +23,7 @@ public:
     virtual std::string get_user_name() = 0;
     virtual std::string get_user_password() = 0;
     virtual UserAction get_user_action() = 0;
+    virtual void show_error(const std::string) = 0;
 
     virtual ~IUserInterface(){};
 };
@@ -34,22 +36,23 @@ public:
     std::string get_user_name();
     std::string get_user_password();
     UserAction get_user_action();
+    void show_error(const std::string);
 
     MockInterface();
 };
 
-class BudgetManager {
-public:
-    void addUser(const std::string& username, const std::string& password){
-        users.emplace(username, User(username, password));
-    }
-    User* login(const std::string& username, const std::string& password){
-        auto it = users.find(username);
-        if(it != users.end() && it->second.authenticate(password)){
-            return &it->second;
-        }
-        return nullptr;
-    }
+class CLInterface : public IUserInterface
+{
 private:
-    std::unordered_map<std::string, User> users;
-}
+    void show_transaction(Transaction);
+
+public:
+    Transaction get_new_transaction();
+    void show_transactions(std::list<Transaction>);
+    std::string get_user_name();
+    std::string get_user_password();
+    UserAction get_user_action();
+    void show_error(const std::string);
+
+    CLInterface();
+};
