@@ -12,7 +12,8 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I",
-                "${fileDirname}\\include"
+                "${fileDirname}\\include",
+                "-lsqlite3"
             ],
             "options": {
                 "cwd": "${fileDirname}"

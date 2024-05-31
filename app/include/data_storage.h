@@ -12,6 +12,9 @@ using namespace std;
 class IDataStorage
 {
 public:
+    virtual void runDB() = 0;
+    virtual int createDB(string dbDirectory) = 0;
+    virtual int createTablesDB(string dbDirectory) = 0;
     virtual list<Transaction> get_user_transactions(int user_id) = 0;                 // wszystkie jednego
     virtual void store_user_transaction(int user_id, Transaction thing_to_store) = 0; // zapisz JEDNA transakcje
 
@@ -24,6 +27,9 @@ public:
 class MockDatabase : public IDataStorage
 {
 public:
+    void runDB();
+    int createDB(string dbDirectory);
+    int createTablesDB(string dbDirectory);
     list<Transaction> get_user_transactions(int user_id);
     void store_user_transaction(int user_id, Transaction thing_to_store);
     list<Transaction> get_user_transactions_filterd(int user_id, time_t start_date, time_t end_date);

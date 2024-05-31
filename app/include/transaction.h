@@ -1,5 +1,6 @@
 #pragma once
 #include <ctime>
+#include <../sqlite/sqlite3.h>
 
 class Transaction
 {

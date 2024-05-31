@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
     IDataStorage *database = new MockDatabase();
+    database->runDB();
     IUserInterface *interface = new CLInterface();
 
     ILogin *login = new LoginService(database, interface);
