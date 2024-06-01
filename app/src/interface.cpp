@@ -2,7 +2,6 @@
 #include <list>
 #include <ctime>
 #include <stdexcept>
-#include <conio.h>
 #include "interface.h"
 
 MockInterface::MockInterface(){};
@@ -47,9 +46,9 @@ time_t getCurrentDate()
 bool getTransactionType()
 {
     int choice;
-    std::cout << "Enter transaction type (1- income, 2-expense): ";
+    std::cout << "Enter transaction type (1- income, 2-expense):" << std::endl;
     std::cin >> choice;
-    if (choice != 1 || choice != 2)
+    if (choice != 1 && choice != 2)
     {
         throw std::invalid_argument("Invalid transaction type");
     }
@@ -105,8 +104,9 @@ void CLInterface::show_transactions(std::list<Transaction> transactions)
     {
         this->show_transaction(transaction);
     }
-    std::cout << "called show_transactions" << std::endl;
-    _getch();
+    // std::cout << "called show_transactions" << std::endl;
+    int a;
+    scanf("%d", &a);
 
     return;
 };
@@ -138,6 +138,7 @@ UserAction CLInterface::get_user_action()
 void CLInterface::show_error(std::string error_message)
 {
     std::cout << error_message << std::endl;
-    _getch();
+    int a;
+    scanf("%d", &a);
     return;
 }
