@@ -7,16 +7,28 @@ project(PBapp VERSION 1.0)
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 add_subdirectory(app)
 
-# Add the executable
-# add_executable(PBapp main.cpp src/*.cpp)
+enable_testing()
 
-# Include directories for header files (if any)
-# target_include_directories(PBapp PUBLIC "${PROJECT_SOURCE_DIR}/app/include")
+add_executable(
+  test_user_service
+  app/tests/test_user_service.cpp
+)
+target_link_libraries(
+    test_user_service
+  GTest::gtest_main
+)
 
-# If there are any libraries, link them here (none in this simple example)
-# target_link_libraries(MyProject PRIVATE some_library)
-
-# Optionally, add custom configurations (e.g., compile options, definitions, etc.)
-# target_compile_options(MyProject PRIVATE -Wall -Wextra -pedantic)
+include(GoogleTest)
+gtest_discover_tests(test_user_service)
