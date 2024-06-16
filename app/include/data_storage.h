@@ -36,3 +36,21 @@ public:
     User *get_user(string user_name, string password);
     bool add_user(string user_name, string password); // osobna tabela w bazie, user i password, jak jest nie teges rzuca errorem
 };
+
+class SqliteDatabase : public IDataStorage
+{
+private:
+    string dbDirectory;
+
+public:
+    void runDB();
+    int createDB();
+    int createTablesDB();
+    list<Transaction> get_user_transactions(int user_id);
+    void store_user_transaction(int user_id, Transaction thing_to_store);
+    list<Transaction> get_user_transactions_filterd(int user_id, time_t start_date, time_t end_date);
+    User *get_user(string user_name, string password);
+    bool add_user(string user_name, string password); // osobna tabela w bazie, user i password, jak jest nie teges rzuca errorem
+
+    SqliteDatabase(string dbDirectory);
+};
