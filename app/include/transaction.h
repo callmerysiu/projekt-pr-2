@@ -4,12 +4,11 @@
 
 class Transaction
 {
-private:
+public:
     double value;
     bool income; // jezli true to znaczy ze to przychod jest // TODO add enum for transaction type
     time_t date;
 
-public:
     Transaction(int value, bool income, time_t date);
     friend std::ostream &operator<<(std::ostream &os, const Transaction &obj)
     {

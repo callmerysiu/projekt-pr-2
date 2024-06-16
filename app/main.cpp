@@ -7,7 +7,9 @@ using namespace std;
 
 int main()
 {
-    IDataStorage *database = new MockDatabase();
+    string dbDirectory = "../database/financeManager.db";
+
+    IDataStorage *database = new SqliteDatabase(dbDirectory);
     database->runDB();
     IUserInterface *interface = new CLInterface();
 

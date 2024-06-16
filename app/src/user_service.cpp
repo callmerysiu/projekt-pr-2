@@ -23,9 +23,9 @@ void UserService::run()
                 Transaction new_transaction = this->interface->get_new_transaction();
                 this->storage->store_user_transaction(this->user->id, new_transaction);
             }
-            catch (...)
+            catch (const exception &err)
             {
-                this->interface->show_error("Error adding transaction");
+                this->interface->show_error(err.what());
             }
             break;
         }
