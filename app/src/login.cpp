@@ -10,16 +10,28 @@ LoginService::LoginService(IDataStorage *database, IUserInterface *interface)
 
 User *LoginService::login()
 {
-    string user_name = this->interface->get_user_name();
-    string password = this->interface->get_user_password();
-    User *user = this->database->get_user(user_name, password); // TODO add try catch for a situation when user does not exists
-    return user;
+    bool logged_in = false;
+    int attempt = 0;
+    while (attempt < 3)
+    {
+        string user_name = this->interface->get_user_name();
+        string password = this->interface->get_user_password();
+        try
+        {
+            User *user = this->database->get_user(user_name, password); // TODO add try catch for a situation when user does not exists
+            return user;
+        }
+        catch (const std::invalid_argument& e)
+        {
+            attempt += 1;
+        }
+    };
+        throw(std::runtime_error("Failed to logg in"));
 };
 
 void LoginService::add_user()
 {
     string user_name = this->interface->get_user_name();
     string password = this->interface->get_user_password();
-    this->database->add_user(user_name, password); // TODO add try catch for when the user is not added
-    return;
+    this->database->add_user(user_name, password);
 };

@@ -200,7 +200,7 @@ User *SqliteDatabase::get_user(string user_name, string input_password)
     if (password != input_password)
     {
         sqlite3_finalize(stmt);
-        throw std::invalid_argument("Passwords do not match.");
+        throw std::invalid_argument("No user found with the given username.");
     }
 
     sqlite3_finalize(stmt);
