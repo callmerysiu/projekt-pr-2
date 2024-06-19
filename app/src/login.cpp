@@ -1,7 +1,5 @@
 #include "login.h"
 
-// User::User(int id, string user_name): id(id), user_name(user_name) {}
-
 LoginService::LoginService(IDataStorage *database, IUserInterface *interface)
 {
     this->database = database;
@@ -18,15 +16,16 @@ User *LoginService::login()
         string password = this->interface->get_user_password();
         try
         {
-            User *user = this->database->get_user(user_name, password); // TODO add try catch for a situation when user does not exists
+            User *user = this->database->get_user(user_name, password);
             return user;
         }
-        catch (const std::invalid_argument& e)
+        catch (const std::invalid_argument &e)
         {
+            this->interface->show_error("Invalid password");
             attempt += 1;
         }
     };
-        throw(std::runtime_error("Failed to logg in"));
+    throw(std::runtime_error("Failed to log in"));
 };
 
 void LoginService::add_user()

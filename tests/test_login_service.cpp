@@ -122,9 +122,8 @@ TEST(LoginServiceTest, login_ThrowsErrorAfter3Attempts)
     EXPECT_CALL((*mockInterface), get_user_password())
         .WillRepeatedly(Return("2137"));
     EXPECT_CALL((*mockStorage), get_user("Ada", "2137"))
-        .WillOnce(Throw(std::invalid_argument("No user found with the given username.")))
-        .WillOnce(Throw(std::invalid_argument("No user found with the given username.")))
-        .WillOnce(Throw(std::invalid_argument("No user found with the given username.")));
+        .Times(3)
+        .WillRepeatedly(Throw(std::invalid_argument("No user found with the given username.")));
 
     LoginService *login = new LoginService(mockStorage, mockInterface);
     EXPECT_THROW(login->login(), std::runtime_error);

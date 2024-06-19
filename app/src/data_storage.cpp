@@ -26,7 +26,7 @@ list<Transaction> MockDatabase::get_user_transactions(int id)
 
 void MockDatabase::store_user_transaction(int user_id, Transaction thing_to_store) {}
 
-list<Transaction> MockDatabase::get_user_transactions_filterd(int user_id, time_t start_date, time_t end_date)
+list<Transaction> MockDatabase::get_user_transactions_filtered(int user_id, time_t start_date, time_t end_date)
 {
     time_t time = 0;
     Transaction t = Transaction(1, 1, 0);
@@ -162,7 +162,7 @@ void SqliteDatabase::store_user_transaction(int user_id, Transaction thing_to_st
     sqlite3_finalize(stmt);
 }
 
-list<Transaction> SqliteDatabase::get_user_transactions_filterd(int user_id, time_t start_date, time_t end_date)
+list<Transaction> SqliteDatabase::get_user_transactions_filtered(int user_id, time_t start_date, time_t end_date)
 // TODO implement this XD
 {
     time_t time = 0;
@@ -172,6 +172,7 @@ list<Transaction> SqliteDatabase::get_user_transactions_filterd(int user_id, tim
 }
 
 User *SqliteDatabase::get_user(string user_name, string input_password)
+// TODO Add password encryption
 {
     sqlite3 *db;
     sqlite3_stmt *stmt;
@@ -196,7 +197,6 @@ User *SqliteDatabase::get_user(string user_name, string input_password)
     int id = sqlite3_column_int(stmt, 0);
     string password = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
 
-    // Add password encryption
     if (password != input_password)
     {
         sqlite3_finalize(stmt);
@@ -210,7 +210,7 @@ User *SqliteDatabase::get_user(string user_name, string input_password)
 }
 
 bool SqliteDatabase::add_user(string user_name, string password)
-// Add password encryption
+// TODO Add password encryption
 {
     sqlite3 *db;
     sqlite3_stmt *stmt;

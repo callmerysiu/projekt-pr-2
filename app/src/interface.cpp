@@ -2,6 +2,7 @@
 #include <list>
 #include <ctime>
 #include <stdexcept>
+#include <algorithm>
 #include "interface.h"
 
 MockInterface::MockInterface(){};
@@ -65,7 +66,20 @@ double getTransactionAmount()
 void clearConsole()
 {
     std::cout << "\033[2J\033[1;1H"; // ANSI escape code for clearing the screen and moving cursor to top-left
-}
+};
+
+void waitForEnter()
+// We are trying to run this app on both Win an Linux
+// Due to this fact and our laziness there won't be any runtime OS recognition
+// So we are stuck with this suboptimal solution
+{
+    std::cout << "Input K to continue" << std::endl;
+    int a;
+    scanf("%d", &a);
+    clearConsole();
+    return;
+};
+
 Transaction CLInterface::get_new_transaction()
 {
     clearConsole();
@@ -104,10 +118,8 @@ void CLInterface::show_transactions(std::list<Transaction> transactions)
     {
         this->show_transaction(transaction);
     }
-    // std::cout << "called show_transactions" << std::endl;
-    int a;
-    scanf("%d", &a);
 
+    waitForEnter();
     return;
 };
 
@@ -118,6 +130,8 @@ UserAction CLInterface::get_user_action()
     std::cout << "What do you want do: ";
     std::cout << "A - add transaction, S - show transaction, Q - exit" << std::endl;
     std::cin >> user_choice;
+
+    std::transform(user_choice.begin(), user_choice.end(), user_choice.begin(), ::toupper);
 
     static std::unordered_map<std::string, UserAction> map = {
         {"A", UserAction::ADD_TRANSACTION},
@@ -138,7 +152,6 @@ UserAction CLInterface::get_user_action()
 void CLInterface::show_error(std::string error_message)
 {
     std::cout << error_message << std::endl;
-    int a;
-    scanf("%d", &a);
+    waitForEnter();
     return;
 }
