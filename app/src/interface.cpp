@@ -114,10 +114,19 @@ void CLInterface::show_transaction(Transaction transaction)
 void CLInterface::show_transactions(std::list<Transaction> transactions)
 {
     clearConsole();
+    int sum =0;
+
     for (const auto &transaction : transactions)
     {
         this->show_transaction(transaction);
+        if (transaction.income){
+            sum += transaction.value;
+        }
+        else{
+            sum -= transaction.value;
+        }
     }
+    std::cout << "Balance: " << sum << std::endl;
 
     waitForEnter();
     return;
