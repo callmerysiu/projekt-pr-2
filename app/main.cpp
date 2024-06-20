@@ -11,7 +11,7 @@ int main()
 
     IDataStorage *database = new SqliteDatabase(dbDirectory);
     database->runDB();
-    database->add_user("a","a"); // For testing, delete later, add some default users on startup (admin, admin) XD
+    // database->add_user("a","a"); // For testing, delete later, add some default users on startup (admin, admin) XD
     IUserInterface *interface = new CLInterface();
 
     ILogin *login = new LoginService(database, interface);

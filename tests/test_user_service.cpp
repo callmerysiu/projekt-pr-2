@@ -15,7 +15,22 @@ TEST(UserServiceTest, Starts) {
 
     testing::Mock::AllowLeak(mockInterface);
     EXPECT_CALL((*mockInterface), get_user_action())
-        .WillOnce(Return(UserAction::EXIT));
+        .WillOnce(Return(UserAction::U_EXIT));
+
+    UserService *userService= new UserService(validUser, mockStorage, mockInterface);
+
+    EXPECT_EXIT(userService->run(), testing::ExitedWithCode(0),"");
+}
+
+TEST(UserServiceTest, AllowsForNOOP) {
+    User *validUser = new User(25, "Alice");
+    MockTestDataStorage *mockStorage = new MockTestDataStorage();
+    MockTestInterface *mockInterface = new MockTestInterface();
+
+    testing::Mock::AllowLeak(mockInterface);
+    EXPECT_CALL((*mockInterface), get_user_action())
+        .WillOnce(Return(UserAction::U_NOOP))
+        .WillOnce(Return(UserAction::U_EXIT));
 
     UserService *userService= new UserService(validUser, mockStorage, mockInterface);
 
@@ -30,7 +45,7 @@ TEST(UserServiceTest, ShowsHistory) {
     testing::Mock::AllowLeak(mockInterface);
     EXPECT_CALL((*mockInterface), get_user_action())
         .WillOnce(Return(UserAction::SEE_HISTORY))
-        .WillOnce(Return(UserAction::EXIT));
+        .WillOnce(Return(UserAction::U_EXIT));
     EXPECT_CALL((*mockInterface), show_transactions(_))
         .WillOnce(Return());
 
@@ -46,8 +61,8 @@ TEST(UserServiceTest, DoesNothing) {
 
     testing::Mock::AllowLeak(mockInterface);
     EXPECT_CALL((*mockInterface), get_user_action())
-        .WillOnce(Return(UserAction::NOOP))
-        .WillOnce(Return(UserAction::EXIT));
+        .WillOnce(Return(UserAction::U_NOOP))
+        .WillOnce(Return(UserAction::U_EXIT));
 
     UserService *userService= new UserService(validUser, mockStorage, mockInterface);
 
@@ -63,7 +78,7 @@ TEST(UserServiceTest, GoesToAddTransaction) {
     testing::Mock::AllowLeak(mockStorage);
     EXPECT_CALL((*mockInterface), get_user_action())
         .WillOnce(Return(UserAction::ADD_TRANSACTION))
-        .WillOnce(Return(UserAction::EXIT));
+        .WillOnce(Return(UserAction::U_EXIT));
     EXPECT_CALL((*mockStorage), store_user_transaction(25,_))
         .WillOnce(Return());
 

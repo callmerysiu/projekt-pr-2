@@ -31,7 +31,7 @@ void MockInterface::show_transactions(std::list<Transaction>)
 
 UserAction MockInterface::get_user_action()
 {
-    return UserAction::EXIT;
+    return UserAction::U_EXIT;
 };
 void MockInterface::show_error(std::string error_message)
 {
@@ -136,7 +136,7 @@ UserAction CLInterface::get_user_action()
     static std::unordered_map<std::string, UserAction> map = {
         {"A", UserAction::ADD_TRANSACTION},
         {"S", UserAction::SEE_HISTORY},
-        {"Q", UserAction::EXIT}};
+        {"Q", UserAction::U_EXIT}};
 
     auto it = map.find(user_choice);
     if (it != map.end())
@@ -145,10 +145,34 @@ UserAction CLInterface::get_user_action()
     }
     else
     {
-        return UserAction::NOOP;
+        return UserAction::U_NOOP;
     }
 };
+LoginAction CLInterface::get_login_action()
+{
+    clearConsole();
+    std::string user_choice;
+    std::cout << "What do you want do: ";
+    std::cout << "L - log in , S - sign up, Q - exit" << std::endl;
+    std::cin >> user_choice;
 
+    std::transform(user_choice.begin(), user_choice.end(), user_choice.begin(), ::toupper);
+
+    static std::unordered_map<std::string, LoginAction> map = {
+        {"L", LoginAction::LOGIN},
+        {"S", LoginAction::SIGNUP},
+        {"Q", LoginAction::L_EXIT}};
+
+    auto it = map.find(user_choice);
+    if (it != map.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return LoginAction::L_NOOP;
+    }
+};
 void CLInterface::show_error(std::string error_message)
 {
     std::cout << error_message << std::endl;

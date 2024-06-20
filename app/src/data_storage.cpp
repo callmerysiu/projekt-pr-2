@@ -44,6 +44,11 @@ bool MockDatabase::add_user(string user_name, string password)
     return true;
 };
 
+bool MockDatabase::check_if_user_exists(string user_name)
+{
+    return false;
+};
+
 SqliteDatabase::SqliteDatabase(string dbDirectory) : dbDirectory(dbDirectory) {}
 
 void SqliteDatabase::runDB()
@@ -104,9 +109,9 @@ list<Transaction> SqliteDatabase::get_user_transactions(int user_id)
     sqlite3 *db;
     sqlite3_stmt *stmt;
     string sql = "SELECT value, income_flag, date FROM UserTransaction WHERE user_id = ?;";
-    
+
     sqlite3_open(dbDirectory.c_str(), &db);
-    
+
     std::list<Transaction> transactions;
 
     if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, 0) != SQLITE_OK)
@@ -212,9 +217,15 @@ User *SqliteDatabase::get_user(string user_name, string input_password)
 bool SqliteDatabase::add_user(string user_name, string password)
 // TODO Add password encryption
 {
+    if (this->check_if_user_exists(user_name))
+    {
+        throw std::invalid_argument("User with such name already exists.");
+    }
+
     sqlite3 *db;
     sqlite3_stmt *stmt;
     string sql = "INSERT INTO User (login, password) VALUES (?, ?);";
+
 
     sqlite3_open(dbDirectory.c_str(), &db);
 
@@ -234,4 +245,28 @@ bool SqliteDatabase::add_user(string user_name, string password)
 
     sqlite3_finalize(stmt);
     return true;
+}
+
+bool SqliteDatabase::check_if_user_exists(string user_name)
+{
+    sqlite3 *db;
+    sqlite3_stmt *stmt;
+    string sql = "SELECT login FROM User WHERE login = ?;";
+    sqlite3_open(dbDirectory.c_str(), &db);
+
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, 0) != SQLITE_OK)
+    {
+        sqlite3_finalize(stmt);
+        throw std::runtime_error(sqlite3_errmsg(db));
+    }
+
+    sqlite3_bind_text(stmt, 1, user_name.c_str(), -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW)
+    {
+        sqlite3_finalize(stmt);
+        return (true);
+    }
+    sqlite3_finalize(stmt);
+    return (false);
 }

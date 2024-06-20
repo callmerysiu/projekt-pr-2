@@ -11,8 +11,17 @@ enum UserAction
 {
     ADD_TRANSACTION,
     SEE_HISTORY,
-    EXIT,
-    NOOP
+    U_EXIT,
+    U_NOOP
+};
+
+
+enum LoginAction
+{
+    LOGIN,
+    SIGNUP,
+    L_EXIT,
+    L_NOOP
 };
 
 class IUserInterface
@@ -23,6 +32,7 @@ public:
     virtual std::string get_user_name() = 0;
     virtual std::string get_user_password() = 0;
     virtual UserAction get_user_action() = 0;
+    virtual LoginAction get_login_action() = 0;
     virtual void show_error(const std::string) = 0;
 
     virtual ~IUserInterface(){};
@@ -52,6 +62,7 @@ public:
     std::string get_user_name();
     std::string get_user_password();
     UserAction get_user_action();
+    LoginAction get_login_action();
     void show_error(const std::string);
 
     CLInterface();

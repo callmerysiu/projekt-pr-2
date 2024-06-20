@@ -12,7 +12,6 @@ void UserService::run()
     while (1)
     {
         UserAction action = this->interface->get_user_action();
-        std::cin.get();
 
         switch (action)
         {
@@ -34,11 +33,11 @@ void UserService::run()
             this->interface->show_transactions(this->storage->get_user_transactions(this->user->id));
             break;
         }
-        case NOOP:
+        case L_NOOP:
         {
             break;
         }
-        case EXIT:
+        case L_EXIT:
         {
             exit(0);
             break;

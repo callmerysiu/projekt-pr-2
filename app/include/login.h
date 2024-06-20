@@ -22,5 +22,6 @@ class LoginService : public ILogin
 public:
     LoginService(IDataStorage *, IUserInterface *);
     User *login();
+    User *login_existing();
     void add_user();
 };

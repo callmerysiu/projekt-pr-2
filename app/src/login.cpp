@@ -1,4 +1,5 @@
 #include "login.h"
+#include "interface.h"
 
 LoginService::LoginService(IDataStorage *database, IUserInterface *interface)
 {
@@ -7,6 +8,36 @@ LoginService::LoginService(IDataStorage *database, IUserInterface *interface)
 }
 
 User *LoginService::login()
+{
+    while (1)
+    {
+        LoginAction action = this->interface->get_login_action();
+
+        switch (action)
+        {
+        case LOGIN:
+        {
+            return this->login_existing();
+        }
+        case SIGNUP:
+        {
+            this->add_user();
+            break;
+        }
+        case L_NOOP:
+        {
+            break;
+        }
+        case L_EXIT:
+        {
+            exit(0);
+            break;
+        }
+        }
+    }
+}
+
+User *LoginService::login_existing()
 {
     bool logged_in = false;
     int attempt = 0;
